@@ -10,31 +10,23 @@ export default class SortableTable {
   step = 30;
   start = 1;
   end = this.start + this.step;
-  // start = 0;
-  // end = 30;
 
   onScroll = async () => {
     let coords = this.element.getBoundingClientRect();
-    console.log(coords);
     const { id, order } = this.sorted;
 
     if (coords < document.documentElement.clientHeight && !this.loading && !this.isSortLocally) {
       this.start = this.end;
       this.end = this.start + this.step;
-
       this.loading = true;
-
       const data = await this.loadData(id, order, this.start, this.end);
-
       this.update(data);
-
       this.loading = false;
     }
-
   }
 
   onSortClick = event => {
-    console.log(this.isSortLocally.toString())
+    console.log(this.isSortLocally.toString());
     const column = event.target.closest('[data-sortable="true"]');
 
     const toggleOrder = order => {
@@ -42,7 +34,6 @@ export default class SortableTable {
         asc: 'desc',
         desc: 'asc',
       };
-
       return orders[order];
     };
 
@@ -57,9 +48,7 @@ export default class SortableTable {
 
       // const sortedData = this.sortData(id, newOrder);
       const arrow = column.querySelector('.sortable-table__sort-arrow');
-
       column.dataset.order = newOrder;
-
       if (!arrow) {
         column.append(this.subElements.arrow);
       }
@@ -97,12 +86,7 @@ export default class SortableTable {
     this.subElements = this.getSubElements(element);
 
     const data = await this.loadData(id, order, this.start, this.end);
-
-    // this.loadData(id, order).then(data => {
-    //   this.element.innerHTML = this.getTemplate(data);
-    // });
-
-    console.log(data)
+    console.log(data);
 
     this.renderBody(data);
     this.initEventListeners();
@@ -151,8 +135,6 @@ export default class SortableTable {
 
     this.element.classList.remove('sortable-table_loading');
 
-    // let response = await fetch('https://course-js.javascript.ru/api/rest/products?_embed=subcategory.category&_sort=title&_order=asc&_start=0&_end=30')
-    // let dataArray = await response.json();
     return data;
   }
 
@@ -169,7 +151,7 @@ export default class SortableTable {
     return this.headerConfig.map(({id, template}) => {
       return template
         ? template(item[id])
-        : `<div class="sortable-table__cell">${item[id]}</div>`
+        : `<div class="sortable-table__cell">${item[id]}</div>`;
     })
       .join('');
   }
@@ -189,7 +171,6 @@ export default class SortableTable {
 
     this.renderBody(data);
   }
-
 
   getHeader() {
     return this.headerConfig.map(item => this.getHeaderRow(item)).join('');
@@ -281,5 +262,3 @@ export default class SortableTable {
     this.subElements = {};
   }
 }
-
-
