@@ -181,5 +181,3 @@ export default class SortableTable {
     this.subElements = {};
   }
 }
-
-
