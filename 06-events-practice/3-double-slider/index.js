@@ -2,6 +2,7 @@ export default class DoubleSlider {
 
   element;
   subElements = {};
+  progress;
 
   onThumbPointerMove = event => {
     event.preventDefault();
@@ -24,6 +25,7 @@ export default class DoubleSlider {
       this.dragging.style.left = this.subElements.progress.style.left = newLeft + '%';
       this.subElements.from.innerHTML = this.formatValue(this.getValue().from);
     }
+
 
     if (this.dragging === this.subElements.thumbRight) {
       let newRight = (innerRight - event.clientX - this.shiftX) / width;
@@ -76,6 +78,7 @@ export default class DoubleSlider {
     const { from, to } = this.selected;
 
     return `<div class="range-slider">
+       <p id="progress"></p>
       <span data-element="from">${this.formatValue(from)}</span>
       <div data-element="inner" class="range-slider__inner">
         <span data-element="progress" class="range-slider__progress"></span>
@@ -92,9 +95,13 @@ export default class DoubleSlider {
     element.innerHTML = this.template;
 
     this.element = element.firstElementChild;
+
+    const elements = element.querySelectorAll('[data-element]');
+
     this.element.ondragstart = () => false;
 
     this.subElements = this.getSubElements(element);
+
 
     this.initialize();
 
@@ -132,6 +139,11 @@ export default class DoubleSlider {
     thumbLeft.addEventListener('pointerdown', event => this.onThumbPointerDown(event));
     thumbRight.addEventListener('pointerdown', event => this.onThumbPointerDown(event));
   }
+
+  getAlert(){
+    alert("Hallo");
+  }
+
 
   onThumbPointerDown(event) {
     const thumbElem = event.target;
